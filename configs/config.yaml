@@ -1,0 +1,5 @@
+defaults:
+  - datamodule : datamodule
+  - logger : logger
+  - model : model
+  - trainer : trainer
