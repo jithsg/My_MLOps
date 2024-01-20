@@ -71,8 +71,14 @@ def main(cfg: DictConfig):
     wandb_logger = WandbLogger(project=cfg.logger.project, entity=cfg.logger.entity)
 
     # Callbacks
-    early_stop_callback = pl.callbacks.EarlyStopping(monitor="val_loss")
-    checkpoint_callback = pl.callbacks.ModelCheckpoint()
+    early_stop_callback = pl.callbacks.EarlyStopping(
+        monitor="train_loss", patience=3, verbose=True, mode="min"
+    )
+
+    checkpoint_callback = pl.callbacks.ModelCheckpoint(dirpath="./models",
+        filename="best-checkpoint",
+        monitor="train_loss",
+        mode="min",)
 
     # Trainer
     trainer = pl.Trainer(max_epochs=cfg.trainer.max_epochs,
